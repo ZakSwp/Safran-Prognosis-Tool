@@ -76,7 +76,7 @@ class DataAcquisitionThread(QThread):
             self.msleep(int(emit_interval))
             #Emit signal containing new data points, wait the period length then, if running == True still holds, repeat
     
-    def run(self,csv_path="data\accel_physics_aug.csv"):
+    def run(self,csv_path="data/accel_physics_aug.csv"):
         try:
             df = pd.read_csv(csv_path)# Load entire CSV once
             
