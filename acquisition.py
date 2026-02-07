@@ -20,31 +20,31 @@ class DataAcquisitionThread(QThread):
         self.running = True
         self.start()
 
-    def run_obsolete(self):
-        sample_interval = 1000 / self.sample_rate  # ms
-        emit_interval = 1000/self.emit_rate
-        while self.running:
-            batch_data = {
-                'timestamp': [],
-                SIGNAL1: [],
-                SIGNAL2: [],
-                SPECTRE1: [],
-                SPECTRE2: [],
-            }
-            for _ in range(self.batch_size):
-            # Simulate or acquire real data
-                timestamp = time.time()
-                batch_data['timestamp'].append(timestamp)
-                batch_data[SIGNAL1].append(25 + np.random.randn() * 2)
-                batch_data[SIGNAL2].append(np.sin(5*timestamp))
-                batch_data[SPECTRE1].append(1500 + np.random.randn() * 100)
-                batch_data[SPECTRE2].append(12 + np.random.randn() * 0.5)
-
-                self.msleep(int(sample_interval)) #simulate sampling speed
-            self.msleep(int(emit_interval))     
-            self.new_data.emit(batch_data) #emit emit_rate times per second
-            self.buffer = []
-            #Emit signal containing new data points, wait the period length then, if running == True still holds, repeat
+#    def run_obsolete(self):
+#        sample_interval = 1000 / self.sample_rate  # ms
+#        emit_interval = 1000/self.emit_rate
+#        while self.running:
+#            batch_data = {
+#                'timestamp': [],
+#                SIGNAL1: [],
+#                SIGNAL2: [],
+#                SPECTRE1: [],
+#                SPECTRE2: [],
+#            }
+#            for _ in range(self.batch_size):
+#            # Simulate or acquire real data
+#                timestamp = time.time()
+#                batch_data['timestamp'].append(timestamp)
+#                batch_data[SIGNAL1].append(25 + np.random.randn() * 2)
+#                batch_data[SIGNAL2].append(np.sin(5*timestamp))
+#                batch_data[SPECTRE1].append(1500 + np.random.randn() * 100)
+#                batch_data[SPECTRE2].append(12 + np.random.randn() * 0.5)
+#
+#                self.msleep(int(sample_interval)) #simulate sampling speed
+#            self.msleep(int(emit_interval))     
+#            self.new_data.emit(batch_data) #emit emit_rate times per second
+#            self.buffer = []
+#            #Emit signal containing new data points, wait the period length then, if running == True still holds, repeat
 
 
     def run_normal(self):
@@ -76,7 +76,7 @@ class DataAcquisitionThread(QThread):
             self.msleep(int(emit_interval))
             #Emit signal containing new data points, wait the period length then, if running == True still holds, repeat
     
-    def run(self,csv_path="C:/Users/mheme/Downloads/accel_physics_aug.csv"):
+    def run(self,csv_path="data\accel_physics_aug.csv"):
         try:
             df = pd.read_csv(csv_path)# Load entire CSV once
             
@@ -100,7 +100,6 @@ class DataAcquisitionThread(QThread):
                     'timestamp': batch['Time_s'].values,
                     SIGNAL1: batch['Ax_ms2'].values,
                     SIGNAL2: batch['Ay_ms2'].values,
-                    #SPECTRE1: batch['Az_ms2'].values,
                 }
                 
                 self.new_data.emit(batch_data)

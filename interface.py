@@ -1,7 +1,6 @@
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QGraphicsScene
+from PyQt5.QtWidgets import QMainWindow
 from PyQt5.uic import loadUi
-import sys
-from PyQt5.QtCore import QTimer, QTime, QDateTime, QPointF, pyqtSignal, QThread
+from PyQt5.QtCore import QTimer, QDateTime
 import pyqtgraph as pg 
 import numpy as np
 from collections import deque
@@ -59,10 +58,6 @@ class MainUI(QMainWindow):
         current_time_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}.{milliseconds:03d}"
         for label in timelabels:
             label.setText(current_time_str)
-
-
-
-
 
 
 class PlotManager():

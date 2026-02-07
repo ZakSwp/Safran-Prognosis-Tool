@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv("C:/Users/mheme/Downloads/accel_physics.csv")
+df = pd.read_csv("data/accel_physics.csv")
 # 2. Determine sampling parameters
 # Calculate average time difference between samples
 dt = df['Time_s'].diff().mean()
@@ -48,7 +48,7 @@ extended_df.insert(0, 'Time_s', new_time_axis)
 extended_df = extended_df.round(3)
 
 # Save to a new CSV file
-output_filename = "C:/Users/mheme/Downloads/accel_physics_aug.csv"
+output_filename = "data/accel_physics_aug.csv"
 extended_df.to_csv(output_filename, index=False)
 
 print(f"Generated {len(extended_df)} samples.")

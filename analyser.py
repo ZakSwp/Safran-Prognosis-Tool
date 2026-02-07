@@ -1,11 +1,5 @@
 import numpy as np
-from PyQt5.QtWidgets import QMainWindow, QApplication, QLabel, QGraphicsScene
-from PyQt5.uic import loadUi
-import sys
-from PyQt5.QtCore import QTimer, QTime, QDateTime, QPointF, pyqtSignal, QThread
-import pyqtgraph as pg 
-import numpy as np
-from collections import deque
+from PyQt5.QtCore import QThread 
 from config import *
 from acquisition import *
 
@@ -49,20 +43,15 @@ def compute_fft(self, signal_name, window_length=200):
         print(f"Error: {signal_name} not found in plot data")
         return None, None
     
-    # Get signal buffer
-    signal_buffer = np.array(self.plot_data[signal_name])
-    
-    # Check if enough samples
+    signal_buffer = np.array(self.plot_data[signal_name])    
     if len(signal_buffer) < window_length:
-        return None, None  # Not enough data yet
+        return None, None  # Insufficient samples
     
-    # Extract last window_length samples
     signal_window = signal_buffer[-window_length:]
     
-    # Apply Hanning window
-    windowed = signal_window * np.hanning(window_length)
+    windowed = signal_window * np.hanning(window_length) # Apply Hanning window
     
-    # Compute FFT (real signal, so use rfft)
+    #(real signal, so use rfft)
     fft_result = np.fft.rfft(windowed)
     magnitude = np.abs(fft_result)
     
